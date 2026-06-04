@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 /*
- * 目的：a
+ * 目的：aa
  * 作成者
  * 最終編集者
  * 
