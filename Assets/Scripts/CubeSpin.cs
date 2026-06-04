@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 /*
  * 目的：aa
- * 作成者a
+ * 作成者a1
  * 最終編集者
  * 
  * 編集履歴：
