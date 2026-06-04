@@ -5,13 +5,13 @@
  * 最終編集者
  * 
  * 編集履歴：
- * 2026/06/04 作成
+ * 2026/06/04 小林作成
  */
 public class CubeSpin : MonoBehaviour
 {
     private void Start()
     {
-        
+        this.transform.position = Vector3.zero;
     }
     private void Update()
     {
