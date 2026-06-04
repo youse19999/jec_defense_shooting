@@ -4,11 +4,12 @@
  * 作成者
  * 最終編集者
  * 
- * 編集履歴：
- * 2026/06/04 作成
+ * 編集履歴：テスト
+ * 2026/06/04 山下
  */
 public class CubeSpin : MonoBehaviour
 {
+    public static float speed;
     private void Start()
     {
         
