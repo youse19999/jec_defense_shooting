@@ -5,7 +5,7 @@
  * 最終編集者
  * 
  * 編集履歴：
- * 2026/06/04 00:00:00 作成
+ * 2026/06/04 作成
  */
 public class CubeSpin : MonoBehaviour
 {
