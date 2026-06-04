@@ -1,4 +1,4 @@
-\# Contributions
+# Contributions
 
 Contributions are not welcome.
 
