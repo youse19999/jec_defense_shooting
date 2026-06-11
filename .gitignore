@@ -107,3 +107,5 @@ InitTestScene*.unity*
 *.meta
 /Assets/Resources
 Assets/Resources.zip
+/Assets/bak
+lastest.zip
