@@ -125,13 +125,17 @@ public class ResourcesUpdater:MonoBehaviour
                             {
                                 Directory.CreateDirectory(temp_folder);
                             }
-                            ZipFile.ExtractToDirectory("lastest.zip", temp_folder,true);
+
+                                if (!Directory.Exists(resource_folder))
+                                {
+                                    Directory.CreateDirectory(resource_folder);
+                                }
+                                ZipFile.ExtractToDirectory("lastest.zip", temp_folder,true);
                             Debug.Log(Directory.GetFiles(temp_folder).Length);
                             foreach (string path in Directory.GetFiles(temp_folder_resource))
                             {
                                 if (File.Exists(path))
                                 {
-                                    File.Copy(path, Path.Combine(bak_folder, Path.GetFileName(path)), true);
                                     SHA256 sha256 = SHA256.Create();
                                     if (File.Exists(Path.Combine(resource_folder, Path.GetFileName(path))) == false || sha256.ComputeHash(File.ReadAllBytes(path)).SequenceEqual(sha256.ComputeHash(File.ReadAllBytes(Path.Combine(resource_folder, Path.GetFileName(path))))) == false)
                                     {
