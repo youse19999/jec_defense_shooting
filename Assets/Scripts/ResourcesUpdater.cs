@@ -8,6 +8,10 @@ using UnityGoogleDrive;
 using UnityEngine.WSA;
 using UnityEngine.Networking;
 using System.IO.Compression;
+using System.Security.Cryptography;
+using System.Text;
+
+
 
 
 
@@ -68,79 +72,92 @@ public class InputDialogWindow : EditorWindow
 }
 public class ResourcesUpdater:MonoBehaviour
 {
-    async Awaitable Start()
+    async void Awake()
     {
-        string jsonString = @"[
-               {""Timestamp"":""2026-06-04T02:28:28.000Z"",""Column 1"":""2026-06-03T15:00:00.000Z"",""Column 2"":""1899-12-30T03:05:40.000Z"",""名前"":""斉藤 陽生"",""リソース"":""https://drive.google.com/open?id=1J2vakWFSZwsmPo7VFmSHlD-C2-UFz2se""},
-               {""Timestamp"":""2026-06-04T03:12:40.000Z"",""Column 1"":""2026-06-03T15:00:00.000Z"",""Column 2"":""1899-12-29T15:49:40.000Z"",""名前"":"""",""リソース"":""https://drive.google.com/open?id=1Jd7-oueIJxULoQb3G_0f2YDG4LvxTxVi""},
-               {""Timestamp"":""2026-06-11T00:40:56.000Z"",""Column 1"":""2026-06-10T15:00:00.000Z"",""Column 2"":""1899-12-30T01:17:40.000Z"",""名前"":""斉藤 陽生"",""リソース"":""https://drive.google.com/open?id=14wiCwPpKmNMedBS4WdOvv7dlu5xEtxAG""}
-        ]";
-
-        // デシリアライズを実行
-        List<ItemData> items = JsonConvert.DeserializeObject<List<ItemData>>(jsonString);
-        List<ItemData> descendingOrder = items.OrderByDescending(x => x.Timestamp).ToList();
-        // データの確認用ログList<ItemData> ascendingOrder = items.OrderBy(x => x.Timestamp).ToList();
-        if (!File.Exists("version.tmp") || descendingOrder.First().Timestamp.ToString() != File.ReadAllText("version.tmp").ToString())
-        {
-            InputDialogWindow.ShowDialog("APIキーの入力", async (result) =>
+            using (UnityWebRequest webRequestApi = UnityWebRequest.Get("https://script.google.com/macros/s/AKfycbzAr0dCGDKkGGyC_JVEzA90k-DBlF44Gq7fPcu1dFRY86xvfkcTxrwz8p4c075aCBxymA/exec"))
             {
+                await webRequestApi.SendWebRequest();
+                 string jsonString = UTF8Encoding.UTF8.GetString(webRequestApi.downloadHandler.data);
 
-                var id = descendingOrder.First().ResourceUrl.Split("https://drive.google.com/open?id=")[1];
-                Debug.Log(id);
-                string url = $"https://www.googleapis.com/drive/v3/files/{id}?alt=media&key={result}";
-
-                using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+                List<ItemData> items = JsonConvert.DeserializeObject<List<ItemData>>(jsonString);
+                List<ItemData> descendingOrder = items.OrderByDescending(x => x.Timestamp).ToList();
+                // データの確認用ログList<ItemData> ascendingOrder = items.OrderBy(x => x.Timestamp).ToList();
+                if (!File.Exists("version.tmp") || descendingOrder.First().Timestamp.ToString() != File.ReadAllText("version.tmp").ToString())
                 {
-                    // リクエスト送信
-                    await webRequest.SendWebRequest();
-
-                    if (webRequest.result == UnityWebRequest.Result.ConnectionError ||
-                        webRequest.result == UnityWebRequest.Result.ProtocolError)
+                    InputDialogWindow.ShowDialog("APIキーの入力", async (result) =>
                     {
-                        Debug.LogError($"エラーが発生しました: {webRequest.error}");
-                        Debug.LogError($"レスポンスコード: {webRequest.responseCode}");
-                    }
-                    else
+                    var id = descendingOrder.First().ResourceUrl.Split("https://drive.google.com/open?id=")[1];
+                    Debug.Log(id);
+                    string url = $"https://www.googleapis.com/drive/v3/files/{id}?alt=media&key={result}";
+
+                    Debug.Log("ダウンロード中...！");
+                    using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
                     {
-                        Debug.Log("ダウンロード成功！");
+                        // リクエスト送信
+                        await webRequest.SendWebRequest();
 
-                        byte[] rawData = webRequest.downloadHandler.data;
-
-                        File.WriteAllText("version.tmp", descendingOrder.First().Timestamp.ToString());
-
-                        File.WriteAllBytes("lastest.zip",rawData);
-
-                        string temp_folder = Path.Combine(UnityEngine.Application.dataPath, "temp");
-                        string temp_folder_resource = Path.Combine(UnityEngine.Application.dataPath, "temp/Resources");
-                        Debug.Log(temp_folder);
-                        string bak_folder = Path.Combine(UnityEngine.Application.dataPath, "bak");
-
-                        if(Directory.Exists(temp_folder))
+                        if (webRequest.result == UnityWebRequest.Result.ConnectionError ||
+                            webRequest.result == UnityWebRequest.Result.ProtocolError)
                         {
-                            Directory.CreateDirectory(bak_folder);
+                            Debug.LogError($"エラーが発生しました: {webRequest.error}");
+                            Debug.LogError($"レスポンスコード: {webRequest.responseCode}");
                         }
-
-                        ZipFile.ExtractToDirectory("lastest.zip", temp_folder);
-                        Debug.Log(Directory.GetFiles(temp_folder).Length);
-                        foreach(string path in Directory.GetFiles(temp_folder_resource))
+                        else
                         {
-                            if(File.Exists(path))
+                            Debug.Log("ダウンロード成功！");
+
+                            byte[] rawData = webRequest.downloadHandler.data;
+
+                            File.WriteAllText("version.tmp", descendingOrder.First().Timestamp.ToString());
+
+                            File.WriteAllBytes("lastest.zip", rawData);
+
+                            string temp_folder = Path.Combine(UnityEngine.Application.dataPath, "temp");
+                            string temp_folder_resource = Path.Combine(UnityEngine.Application.dataPath, "temp/Resources");
+                            string resource_folder = Path.Combine(UnityEngine.Application.dataPath, "Resources");
+                            Debug.Log(temp_folder);
+                            string bak_folder = Path.Combine(UnityEngine.Application.dataPath, "bak");
+
+                            if (!Directory.Exists(bak_folder))
                             {
-                                File.Copy(path,Path.Combine(bak_folder,Path.GetFileName(path)),true);
-                                Debug.Log(path + "に送りました。");
-                                File.Copy(path, Path.Combine(UnityEngine.Application.dataPath, Path.GetFileName(path)),true);
+                                Directory.CreateDirectory(bak_folder);
                             }
-                            else
+                            if (!Directory.Exists(temp_folder))
                             {
-                                File.Copy(path, Path.Combine(UnityEngine.Application.dataPath, Path.GetFileName(path)));
+                                Directory.CreateDirectory(temp_folder);
                             }
+                            ZipFile.ExtractToDirectory("lastest.zip", temp_folder,true);
+                            Debug.Log(Directory.GetFiles(temp_folder).Length);
+                            foreach (string path in Directory.GetFiles(temp_folder_resource))
+                            {
+                                if (File.Exists(path))
+                                {
+                                    File.Copy(path, Path.Combine(bak_folder, Path.GetFileName(path)), true);
+                                    SHA256 sha256 = SHA256.Create();
+                                    if (File.Exists(Path.Combine(resource_folder, Path.GetFileName(path))) == false || sha256.ComputeHash(File.ReadAllBytes(path)).SequenceEqual(sha256.ComputeHash(File.ReadAllBytes(Path.Combine(resource_folder, Path.GetFileName(path))))) == false)
+                                    {
+                                        Debug.Log(path + "が更新されました");
+                                        File.Copy(path, Path.Combine(resource_folder, Path.GetFileName(path)), true);
+                                    }
+                                }
+                            }
+                            Directory.Delete(temp_folder, true);
+                            Debug.Log("");
                         }
-                        Directory.Delete(temp_folder);
-                        Debug.Log("");
                     }
-                }
-            });
+                });
+            }
         }
     }
 } 
+public static class GameInitializer
+{
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    private static void Initialize()
+    {
+        GameObject autoManager = new GameObject("Automated_Manager");
+
+        autoManager.AddComponent<ResourcesUpdater>();
+    }
+}
 #endif
