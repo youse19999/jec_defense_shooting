@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
-using UnityGoogleDrive;
 using UnityEngine.WSA;
 using UnityEngine.Networking;
 using System.IO.Compression;
@@ -136,8 +135,14 @@ public class ResourcesUpdater:MonoBehaviour
                                     SHA256 sha256 = SHA256.Create();
                                     if (File.Exists(Path.Combine(resource_folder, Path.GetFileName(path))) == false || sha256.ComputeHash(File.ReadAllBytes(path)).SequenceEqual(sha256.ComputeHash(File.ReadAllBytes(Path.Combine(resource_folder, Path.GetFileName(path))))) == false)
                                     {
-                                        Debug.Log(path + "が更新されました");
-                                        File.Copy(path, Path.Combine(resource_folder, Path.GetFileName(path)), true);
+                                        try
+                                        {
+                                            Debug.Log(path + "が更新されました");
+                                            File.Copy(path, Path.Combine(resource_folder, Path.GetFileName(path)), true);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                        }
                                     }
                                 }
                             }
