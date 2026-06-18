@@ -43,11 +43,13 @@ public class bulletScript : MonoBehaviour
     {
         if(collision.gameObject.CompareTag(enemyTagName))
         {
-
+            //チャージ弾
             if(isCharged)
             {
-                
+
+                isCharged = false;
             }
+            //通常弾
             else
             {
                 //敵にダメージを与える処理。ダメージはbulletattackPoint(float)変数宣言済
