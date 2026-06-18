@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 318936418}
   m_Layer: 0
   m_Name: player
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -197,6 +197,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1bab962d35e4b84ab99965f670c0064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chargePoint: 20
+  isDead: 0
   bullet: {fileID: 947144951916356646, guid: 958d08ed1a28b09458e9210b1bbb1766, type: 3}
 --- !u!212 &318936416
 SpriteRenderer:

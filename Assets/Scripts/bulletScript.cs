@@ -54,7 +54,7 @@ public class bulletScript : MonoBehaviour
             {
                 //敵にダメージを与える処理。ダメージはbulletattackPoint(float)変数宣言済
 
-                Destroy(this.gameObject);
+                //Destroy(this.gameObject);
             }
                 
         }

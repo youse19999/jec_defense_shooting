@@ -151,6 +151,8 @@ MonoBehaviour:
   bulletSpeed: 10
   bulletattackPoint: 1
   bulletlifeTime: 3
+  isCharged: 0
+  enemyTagName: Enemy
 --- !u!50 &-5324296316890081734
 Rigidbody2D:
   serializedVersion: 5
