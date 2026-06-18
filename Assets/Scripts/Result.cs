@@ -43,7 +43,7 @@ public class Result : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.S))
         {
-            SceneManager.LoadScene("Test");
+            SceneManager.LoadScene("Title");
         }
     }
 

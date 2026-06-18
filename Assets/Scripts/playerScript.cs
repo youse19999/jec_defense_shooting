@@ -1,5 +1,6 @@
 using Unity.Hierarchy;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /*
  * 目的：プレイヤーの処理。弾の生成、発射など
@@ -52,8 +53,11 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isDead) { return; }
-
+        if (isDead)
+        {
+            SceneManager.LoadScene("Result");
+            return; 
+        }
         //弾発射の処理
         Shot();
     }

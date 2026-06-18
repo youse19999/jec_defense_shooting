@@ -88,6 +88,7 @@ public class bearScript : MonoBehaviour
         if (hp <= 0)
         {
             point++;
+            ResultScoreTest.score = point;
             Destroy(gameObject);//object‚ðÁ‹Ž
         }
     }
