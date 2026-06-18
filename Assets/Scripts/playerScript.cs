@@ -32,8 +32,9 @@ public class PlayerScript : MonoBehaviour
     void Start()
     {
         mainCamera = Camera.main;
-        
- 
+        currentHP = 100;
+
+
     }
 
     // Update is called once per frame
@@ -90,6 +91,6 @@ public class PlayerScript : MonoBehaviour
         //ƒ_ƒ[ƒW‚ðŽó‚¯‚é
 
         //HP‚O‚ÅŽ€–Sˆ—
-        if(currentHP >= 0) { isDead = true; }
+        if(currentHP <= 0) { isDead = true; }
     }
 }
