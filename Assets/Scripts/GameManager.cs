@@ -3,7 +3,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    GameObject player;
     PlayerScript playerScript;
 
     private bool isGameOver = false;
@@ -11,8 +10,9 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        player = GameObject.Find("player");
-        isGameOver = player.GetComponent<PlayerScript>().isDead;
+        GameObject player = GameObject.Find("player");
+        playerScript = player.GetComponent<PlayerScript>();
+        isGameOver = playerScript.GetIsDead();
     }
 
     // Update is called once per frame
