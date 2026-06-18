@@ -13,6 +13,7 @@ public class PlayerScript : MonoBehaviour
 {
     //プレイヤーステータス
     float maxHP = 100;
+    [SerializeField]
     float currentHP;
     float maxGauge;
     float currentGauge;
@@ -26,14 +27,25 @@ public class PlayerScript : MonoBehaviour
     //その他
     Camera mainCamera;
     public GameObject bullet;
-    
+    static PlayerScript instance;
+    public static PlayerScript GetInstance()
+    {
+        return instance;
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         mainCamera = Camera.main;
         currentHP = 100;
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
 
+        }
 
     }
 
@@ -44,9 +56,6 @@ public class PlayerScript : MonoBehaviour
 
         //弾発射の処理
         Shot();
-
-        //ダメージ判定
-        Damage();
     }
 
     void Shot()
@@ -91,9 +100,9 @@ public class PlayerScript : MonoBehaviour
     public void Damage()
     {
         //ダメージを受ける
-
+        currentHP -= 20;
         //HP０で死亡処理
-        if(currentHP <= 0) { isDead = true; }
+        if (currentHP <= 0) { isDead = true; }
     }
 
 

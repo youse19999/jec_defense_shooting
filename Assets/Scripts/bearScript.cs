@@ -14,6 +14,7 @@ using System.Collections.Generic;
 
 public class bearScript : MonoBehaviour
 {
+    private bool awaitableStarted;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public int moveSpeed=0;//ˆÚ“®‘¬“x
     public int hp = 10;//‘Ì—Í
@@ -48,21 +49,27 @@ public class bearScript : MonoBehaviour
         }
     }
 
-    void BearAttack()
+    async Awaitable BearAttack()
     {
-        //UŒ‚‚ª“–‚½‚Á‚½ˆ—
-        if(time==80)
+        if(awaitableStarted)
         {
-            Debug.Log("Hit");
+            return;
         }
-
-        //State‚ğ‘Ò‹@‚É‚·‚é
-        if (time >= 120)
+        awaitableStarted = true;
+        while (true)
         {
-            Debug.Log("Wait");
-            state = State.Wait;
-            anim.SetBool("Attack", false);
-            time = 0;
+            //UŒ‚‚ª“–‚½‚Á‚½ˆ—
+
+            PlayerScript.GetInstance().Damage();
+            await Awaitable.WaitForSecondsAsync(1.0f);
+            //State‚ğ‘Ò‹@‚É‚·‚é
+            if (time >= 120)
+            {
+                Debug.Log("Wait");
+                state = State.Wait;
+                anim.SetBool("Attack", false);
+                time = 0;
+            }
         }
     }
 
@@ -78,8 +85,11 @@ public class bearScript : MonoBehaviour
 
     public void BearDead()
     {
-        Destroy(gameObject);//object‚ğÁ‹
-        point++;
+        if (hp <= 0)
+        {
+            point++;
+            Destroy(gameObject);//object‚ğÁ‹
+        }
     }
 
     void Start()
@@ -90,14 +100,14 @@ public class bearScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    async void Update()
     {
         time+=(int)Time.deltaTime;
-
+        BearDead();
         switch (state)
         {
             case State.Walk: BearWalk(); break;
-            case State.Attack: BearAttack(); break;
+            case State.Attack: { await BearAttack(); } break;
             case State.Wait: BearWait(); break;
         }
     }

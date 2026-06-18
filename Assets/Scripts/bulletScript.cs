@@ -41,19 +41,23 @@ public class bulletScript : MonoBehaviour
     //エネミーに衝突したら自壊
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.CompareTag(enemyTagName))
+        if(collision.gameObject.tag == enemyTagName)
         {
             //チャージ弾
             if(playerScript.GetIsCharged())
             {
                 Debug.Log("反応してます");
+                foreach(var enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+                {
+                    Destroy(enemy);
+                }
                //今いる敵を全消す
             }
             //通常弾
             else
             {
                 //敵にダメージを与える処理。ダメージはbulletattackPoint(float)変数宣言済
-
+                collision.gameObject.GetComponent<bearScript>().hp -= 3;
                 //Destroy(this.gameObject);
             }
                 
