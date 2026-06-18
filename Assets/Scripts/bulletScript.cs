@@ -19,9 +19,9 @@ public class bulletScript : MonoBehaviour
     public bool isCharged = false;
 
     //その他
+    public string enemyTagName = "Enemy";
     private float timeCount;
     private Vector3 direction;
-    public string enemyTagName = "Enemy";
     Rigidbody rigidBody;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -41,7 +41,7 @@ public class bulletScript : MonoBehaviour
     //エネミーに衝突したら自壊
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == enemyTagName)
+        if(collision.gameObject.CompareTag(enemyTagName))
         {
 
             if(isCharged)
@@ -50,6 +50,8 @@ public class bulletScript : MonoBehaviour
             }
             else
             {
+                //敵にダメージを与える処理。ダメージはbulletattackPoint(float)変数宣言済
+
                 Destroy(this.gameObject);
             }
                 

@@ -11,22 +11,21 @@ using UnityEngine;
  */
 public class PlayerScript : MonoBehaviour
 {
-    Camera mainCamera;
-    public GameObject bullet;
-
     //プレイヤーステータス
     float maxHP = 100;
     float maxGauge;
     float currentGauge;
     float currentHP;
     //チャージ
-    float currentPoint = 0;
+    float currentChargePoint = 0.0f;
     float addpoint = 10.0f;
-    float chargePoint = 50.0f;
+    public float chargePoint = 20.0f;
     //状態
-    bool isDead = false;
+    public bool isDead = false;
     bool isCharge = false;
-
+    //その他
+    Camera mainCamera;
+    public GameObject bullet;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -68,21 +67,21 @@ public class PlayerScript : MonoBehaviour
             float speed = bulletObject.GetComponent<bulletScript>().bulletSpeed;
             Rigidbody2D rigidbody2D = bulletObject.GetComponent<Rigidbody2D>();
             rigidbody2D.linearVelocity = direction * speed;
-
-            //チャージしていた場合溜めをリセット
-            isCharge = false;
-            currentPoint = 0;
         }
 
-        //チャージ処理
+        //チャージ
         if (Input.GetMouseButton(0))
         {
-            if (isCharge) { return; }
-                currentPoint +=  Time.deltaTime* addpoint;
-            Debug.Log(currentPoint);
             //チャージ完了処理
-            if(currentGauge >= chargePoint) { isCharge = true; }
-            
+            if (currentChargePoint >= chargePoint)
+            {
+                isCharge = true;
+                Debug.Log("チャージ完了");
+            }
+
+            if (isCharge) { return; }
+            currentChargePoint +=  Time.deltaTime* addpoint;
+ 
         }
     }
 
@@ -91,6 +90,6 @@ public class PlayerScript : MonoBehaviour
         //ダメージを受ける
 
         //HP０で死亡処理
-        //if(currentHP <= 0) { isDead = true; }
+       if(currentHP <= 0) { isDead = true; }
     }
 }
