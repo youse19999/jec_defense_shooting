@@ -16,7 +16,7 @@ public class Result : MonoBehaviour
     [SerializeField]
     int point;
 
-    string[] ranking = { "‚PˆÊ", "‚QˆÊ", "‚RˆÊ", "‚SˆÊ", "‚TˆÊ" };
+    string[] ranking = { "‚P", "‚Q", "‚R", "‚S", "‚T" };
     int[] rankingValue = new int[5];
 
     [SerializeField]
@@ -88,9 +88,9 @@ public class Result : MonoBehaviour
     {
         for (int i = 0; i < rankingText.Length; i++)
         {
-            rankingText[i].text = ranking[i] + " " + rankingValue[i].ToString();
+            rankingText[i].text = rankingValue[i].ToString();
         }
 
-        nowScoreText.text = "¡‰ñ‚ÌƒXƒRƒA‚Í" + point + "!";
+        nowScoreText.text = point + "“_!";
     }
 }

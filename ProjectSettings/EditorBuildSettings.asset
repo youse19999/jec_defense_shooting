@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Test/YamashitaRyuji.unity
     guid: 09c393df2435f7f48bbc0db33edcc047
   - enabled: 1
+    path: Assets/Scenes/Result.unity
+    guid: 3b95842c8b8f8ef47bf8b50afb131e38
+  - enabled: 1
     path: Assets/Yamashita/Scenes/Test.unity
     guid: 7fe10daa82d5f8b419422e8471d60d33
   m_configObjects: {}

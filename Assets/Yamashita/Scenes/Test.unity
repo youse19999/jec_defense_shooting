@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 1278568144}
-  loadScene: YamashitaRyuji
+  loadScene: Result
 --- !u!1 &340653880
 GameObject:
   m_ObjectHideFlags: 0
