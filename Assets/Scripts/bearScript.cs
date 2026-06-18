@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using UnityEngine;
+using System.Collections.Generic;
 
 /*
  * 目的：くまの行動処理
@@ -7,13 +9,17 @@ using UnityEngine;
  * 
  * 編集履歴：
  * 2026/06/11 小林作成
+ * 2026/06/18 小林
  */
 
 public class bearScript : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public int MoveSpeed=0;
-    private int time = 0;
+    public int moveSpeed=0;//移動速度
+    public int hp = 10;//体力
+    public int attackpoint = 20;//攻撃力
+    public static int point =0;//倒された時のポイント
+    private int time = 0;//時間管理系
     private Animator anim = null;
     public Transform targetPosition;
   
@@ -21,18 +27,17 @@ public class bearScript : MonoBehaviour
     //ステートでの動きの管理
     public enum State
     {
-        Walk,
-        Wait,
-        Attack,
-        Dead
+        Walk,       //歩き中
+        Wait,       //待機中
+        Attack,     //攻撃中
     }
     State state;
 
     void BearWalk()
     {
-
+        //目的地へ移動
         transform.position = Vector3.MoveTowards(transform.position,
-                         targetPosition.position, MoveSpeed * Time.deltaTime);
+                         targetPosition.position, moveSpeed * Time.deltaTime);
 
         float distance=Vector3.Distance(transform.position, targetPosition.position);
         if(distance < 0.1f)
@@ -45,8 +50,16 @@ public class bearScript : MonoBehaviour
 
     void BearAttack()
     {
+        //攻撃が当たった処理
+        if(time==80)
+        {
+            Debug.Log("Hit");
+        }
+
+        //Stateを待機にする
         if (time >= 120)
         {
+            Debug.Log("Wait");
             state = State.Wait;
             anim.SetBool("Attack", false);
             time = 0;
@@ -63,9 +76,10 @@ public class bearScript : MonoBehaviour
         }
     }
 
-    void BearDead()
+    public void BearDead()
     {
-        Destroy(gameObject);
+        Destroy(gameObject);//objectを消去
+        point++;
     }
 
     void Start()
@@ -78,14 +92,13 @@ public class bearScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        time++;
+        time+=(int)Time.deltaTime;
 
         switch (state)
         {
-            case State.Walk:    BearWalk();    break;
-            case State.Attack:  BearAttack();  break;
-            case State.Wait:    BearWait();    break;
-            case State.Dead:    BearDead();    break;
+            case State.Walk: BearWalk(); break;
+            case State.Attack: BearAttack(); break;
+            case State.Wait: BearWait(); break;
         }
     }
 }
