@@ -23,6 +23,8 @@ public class bearScript : MonoBehaviour
     private int time = 0;//ŽžŠÔŠÇ—Œn
     private Animator anim = null;
     public Transform targetPosition;
+
+    private bool looping = true;
   
 
     //ƒXƒe[ƒg‚Å‚Ì“®‚«‚ÌŠÇ—
@@ -56,7 +58,7 @@ public class bearScript : MonoBehaviour
             return;
         }
         awaitableStarted = true;
-        while (true)
+        while (looping)
         {
             //UŒ‚‚ª“–‚½‚Á‚½ˆ—
 
@@ -72,7 +74,10 @@ public class bearScript : MonoBehaviour
             }
         }
     }
-
+    private void OnDestroy()
+    {
+        looping = false;
+    }
     void BearWait()
     {
         if(time >= 120)

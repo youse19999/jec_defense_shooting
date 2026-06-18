@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.WSA;
 using UnityEngine.Networking;
 using System.IO.Compression;
 using System.Security.Cryptography;

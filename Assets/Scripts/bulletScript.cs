@@ -49,6 +49,7 @@ public class bulletScript : MonoBehaviour
                 Debug.Log("”½‰‚µ‚Ä‚Ü‚·");
                 foreach(var enemy in GameObject.FindGameObjectsWithTag("Enemy"))
                 {
+                    ResultScoreTest.score += 1;
                     Destroy(enemy);
                 }
                //¡‚¢‚é“G‚ğ‘SÁ‚·
