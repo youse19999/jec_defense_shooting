@@ -107,7 +107,9 @@ public class PlayerScript : MonoBehaviour
         //ƒ_ƒ[ƒW‚ğó‚¯‚é
         currentHP -= 20;
         //HP‚O‚Å€–Sˆ—
-        if (currentHP <= 0) { isDead = true; }
+        if (currentHP <= 0) { 
+            isDead = true; 
+        }
     }
 
 
