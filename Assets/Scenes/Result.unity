@@ -1308,10 +1308,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1143045257}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81340f693bdd72d4baa6689e49133cf7, type: 3}
+  m_Script: {fileID: 11500000, guid: 0260d8011390ab44daade05348b43dc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  point: 0
+  point: 35
   rankingText:
   - {fileID: 1115284494}
   - {fileID: 1409471261}
