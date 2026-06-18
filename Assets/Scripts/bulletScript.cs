@@ -15,20 +15,19 @@ public class bulletScript : MonoBehaviour
     public float bulletattackPoint = 1.0f; //攻撃力
     [SerializeField] private float bulletlifeTime = 5.0f;//寿命
 
-    //状態
-    public bool isCharged = false;
-
     //その他
     public string enemyTagName = "Enemy";
     private float timeCount;
     private Vector3 direction;
     Rigidbody rigidBody;
+    PlayerScript playerScript;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
-
+        GameObject player = GameObject.Find("player");
+        playerScript = player.GetComponent<PlayerScript>();
     }
 
     // Update is called once per frame
@@ -36,6 +35,7 @@ public class bulletScript : MonoBehaviour
     {
         timeCount += Time.deltaTime;
         if(timeCount >= bulletlifeTime) { Destroy(this.gameObject); }
+
     }
 
     //エネミーに衝突したら自壊
@@ -44,10 +44,10 @@ public class bulletScript : MonoBehaviour
         if(collision.gameObject.CompareTag(enemyTagName))
         {
             //チャージ弾
-            if(isCharged)
+            if(playerScript.GetIsCharged())
             {
-
-                isCharged = false;
+                Debug.Log("反応してます");
+               //今いる敵を全消す
             }
             //通常弾
             else
