@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 
 /*
@@ -7,6 +8,7 @@ using UnityEngine;
  * 
  * 編集履歴：
  * 2026/06/11 小林作成
+ * 2026/06/18 小林
  */
 
 
@@ -14,7 +16,7 @@ public class bearGenerator : MonoBehaviour
 {
     public GameObject bearPrefab;
     public int maxSpownTime=10;//ランダム生成の最大生成時間
-    public float count;//時間管理
+    private float count;//時間管理
     private float RandomY;//ランダムで生成座標を決める 
     [SerializeField] Transform target;
 

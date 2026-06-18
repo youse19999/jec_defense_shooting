@@ -13,9 +13,9 @@ public class PlayerScript : MonoBehaviour
 {
     //プレイヤーステータス
     float maxHP = 100;
+    float currentHP;
     float maxGauge;
     float currentGauge;
-    float currentHP;
     //チャージ
     float currentChargePoint = 0.0f;
     float addpoint = 10.0f;
@@ -26,7 +26,7 @@ public class PlayerScript : MonoBehaviour
     //その他
     Camera mainCamera;
     public GameObject bullet;
-
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -51,6 +51,7 @@ public class PlayerScript : MonoBehaviour
 
     void Shot()
     {
+
         //通常攻撃
         if (Input.GetMouseButtonUp(0))
         {
@@ -86,11 +87,22 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    void Damage()
+    //受け渡し関数
+    public void Damage()
     {
         //ダメージを受ける
 
         //HP０で死亡処理
         if(currentHP <= 0) { isDead = true; }
+    }
+
+
+    public bool GetIsCharged()
+    {
+        return isCharge;
+    }
+    public bool GetIsDead()
+    {
+        return isDead;
     }
 }
