@@ -78,6 +78,7 @@ public class PlayerScript : MonoBehaviour
             float speed = bulletObject.GetComponent<bulletScript>().bulletSpeed;
             Rigidbody2D rigidbody2D = bulletObject.GetComponent<Rigidbody2D>();
             rigidbody2D.linearVelocity = direction * speed;
+            currentChargePoint = 0;
         }
 
         //チャージ
@@ -88,6 +89,10 @@ public class PlayerScript : MonoBehaviour
             {
                 isCharge = true;
                 Debug.Log("チャージ完了");
+            }
+            else
+            {
+                isCharge = false;
             }
 
             if (isCharge) { return; }

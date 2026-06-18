@@ -60,7 +60,7 @@ public class bulletScript : MonoBehaviour
                 collision.gameObject.GetComponent<bearScript>().hp -= 3;
                 //Destroy(this.gameObject);
             }
-                
+            Destroy(this.gameObject);
         }
     }
 }
